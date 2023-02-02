@@ -83,10 +83,20 @@ function addtoPage(info) {
     "click",
     (e) => {
       console.log(info.id);
+      main.classList.add("active");
       const saver = addEle(main, "button", "Save to Server");
       const eles = main.querySelectorAll(".editme");
       eles.forEach((el) => {
         el.setAttribute("contenteditable", true);
+      });
+      saver.addEventListener("click", (e) => {
+        const tempObj = {
+          title: eles[0].textContent,
+          body: eles[1].textContent,
+          id: info.id,
+          userId: 1,
+        };
+        console.log(tempObj);
       });
     },
     { once: true }

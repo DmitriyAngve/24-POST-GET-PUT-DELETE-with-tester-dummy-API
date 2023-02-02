@@ -15,3 +15,11 @@
   margin: 10px auto;
   width: 80%;
 }
+
+.active {
+  background-color: #ddd;
+}
+.active .editme {
+  background-color: white;
+  border: 1px solid #333;
+}
