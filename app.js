@@ -80,10 +80,12 @@ function addtoPage(info) {
   console.log(info);
   const main = addEle(output, "div", "");
   const delButton = addEle(output, "button", "Delete Item №" + info.id);
+  delButton.classList.add("del");
   delButton.addEventListener("click", (e) => {
-    fetch(baseURL + "posts/1", {
+    fetch(baseURL + "posts/" + info.id, {
       method: "DELETE",
     });
+
     main.remove();
     delButton.remove();
   });
@@ -99,6 +101,7 @@ function addtoPage(info) {
       console.log(info.id);
       main.classList.add("active");
       const saver = addEle(main, "button", "Save to Server");
+      saver.classList.add("sav");
       const eles = main.querySelectorAll(".editme");
       eles.forEach((el) => {
         el.setAttribute("contenteditable", true);
