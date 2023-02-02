@@ -1,12 +1,65 @@
+const baseURL = "https://jsonplaceholder.typicode.com/";
 const btn = document.querySelector(".btn");
 const inpEle = document.querySelector("input");
 const output = document.querySelector(".output");
+const container = document.querySelector(".container");
+const output1 = addEle(container, "div", "");
+output1.classList.add("container1");
+const btn2 = addEle(output1, "button", "add Item");
+const input1 = addEle(output1, "input", "");
+input1.setAttribute("type", "text");
+input1.setAttribute("placeholder", "title");
+const input2 = addEle(output1, "input", "");
+input2.setAttribute("type", "text");
+input2.setAttribute("placeholder", "body");
 inpEle.value = 1;
 inpEle.classList.add("num");
 inpEle.setAttribute("type", "number");
 btn.textContent = "Select Post ID";
+const btn1 = addEle(output1, "button", "Load All Posts");
+btn1.style.display = "block";
+
 btn.addEventListener("click", loadData);
-const baseURL = "https://jsonplaceholder.typicode.com/";
+btn1.addEventListener("click", loadAll);
+btn2.addEventListener("click", addItem);
+
+function addItem() {
+  const title = input1.value || "Title";
+  const body = input1.value || "Body Contents";
+  const url = baseURL + "posts/";
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify({
+      title: title,
+      body: body,
+      userId: 1,
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+    });
+}
+
+function loadAll(e) {
+  console.log("ready");
+  const url = baseURL + "posts/";
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      addItems(data);
+    });
+}
+
+function addItems(json) {
+  output.innerHTML = "";
+  json.forEach((element) => {
+    addtoPage(element);
+  });
+}
 
 function loadData(e) {
   console.log("ready");
