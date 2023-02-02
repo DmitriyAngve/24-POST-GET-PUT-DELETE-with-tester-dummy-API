@@ -75,10 +75,22 @@ function addtoPage(info) {
   console.log(info);
   const main = addEle(output, "div", "");
   main.classList.add("box");
-  let html = `<h1>${info.title}</h1>`;
-  html += `<p>${info.body}</p>`;
+  let html = `<h1 class="editme">${info.title}</h1>`;
+  html += `<p class="editme">${info.body}</p>`;
   html += `<small>ID: ${info.id} - UserID: ${info.userId}</small>`;
   const item = addEle(main, "div", html);
+  item.addEventListener(
+    "click",
+    (e) => {
+      console.log(info.id);
+      const saver = addEle(main, "button", "Save to Server");
+      const eles = main.querySelectorAll(".editme");
+      eles.forEach((el) => {
+        el.setAttribute("contenteditable", true);
+      });
+    },
+    { once: true }
+  );
 }
 
 function addEle(parent, t, html) {
