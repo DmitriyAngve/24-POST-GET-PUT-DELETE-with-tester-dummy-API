@@ -26,21 +26,26 @@ btn2.addEventListener("click", addItem);
 function addItem() {
   const title = input1.value || "Title";
   const body = input1.value || "Body Contents";
+  const json = {
+    title: title,
+    body: body,
+    userId: 1,
+  };
   const url = baseURL + "posts/";
+  makeReq(json, "POST", url);
+}
+
+function makeReq(json, meth, url) {
   fetch(url, {
-    method: "POST",
-    body: JSON.stringify({
-      title: title,
-      body: body,
-      userId: 1,
-    }),
+    method: meth,
+    body: JSON.stringify(json),
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
+      addtoPage(data);
     });
 }
 
@@ -74,6 +79,15 @@ function loadData(e) {
 function addtoPage(info) {
   console.log(info);
   const main = addEle(output, "div", "");
+  const delButton = addEle(output, "button", "Delete Item №" + info.id);
+  delButton.addEventListener("click", (e) => {
+    fetch(baseURL + "posts/1", {
+      method: "DELETE",
+    });
+    main.remove();
+    delButton.remove();
+  });
+
   main.classList.add("box");
   let html = `<h1 class="editme">${info.title}</h1>`;
   html += `<p class="editme">${info.body}</p>`;
@@ -89,18 +103,38 @@ function addtoPage(info) {
       eles.forEach((el) => {
         el.setAttribute("contenteditable", true);
       });
-      saver.addEventListener("click", (e) => {
-        const tempObj = {
-          title: eles[0].textContent,
-          body: eles[1].textContent,
-          id: info.id,
-          userId: 1,
-        };
-        console.log(tempObj);
-      });
+      saver.addEventListener(
+        "click",
+        (e) => {
+          const tempObj = {
+            title: eles[0].textContent,
+            body: eles[1].textContent,
+            id: info.id,
+            userId: info.userId,
+          };
+          eles.forEach((el) => {
+            el.setAttribute("contenteditable", false);
+          });
+          // makeReq(tempObj, "PUT");
+          putItem(tempObj);
+          main.classList.remove("active");
+          saver.remove();
+        },
+        {
+          once: true,
+        }
+      );
     },
-    { once: true }
+    {
+      once: true,
+    }
   );
+}
+function putItem(json) {
+  console.log(json.id);
+  console.log(json);
+  const url = baseURL + "posts/" + json.id;
+  makeReq(json, "PUT", url);
 }
 
 function addEle(parent, t, html) {
