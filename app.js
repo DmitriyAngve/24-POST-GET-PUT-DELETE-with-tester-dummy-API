@@ -21,6 +21,7 @@ function loadData(e) {
 function addtoPage(info) {
   console.log(info);
   const main = addEle(output, "div", "");
+  main.classList.add("box");
   let html = `<h1>${info.title}</h1>`;
   html += `<p>${info.body}</p>`;
   html += `<small>ID: ${info.id} - UserID: ${info.userId}</small>`;

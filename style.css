@@ -1,0 +1,17 @@
+.name {
+  display: block;
+  text-align: center;
+}
+
+.num {
+  font-size: 1.5em;
+  max-width: 70px;
+}
+
+.box {
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  padding: 10px;
+  margin: 10px auto;
+  width: 80%;
+}
